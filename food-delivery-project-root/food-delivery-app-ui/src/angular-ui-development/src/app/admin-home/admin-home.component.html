@@ -1,0 +1,89 @@
+<div class="page-container">
+    <h2>{{restaurant.name}}</h2>
+    <button class="btn btn-success" (click)="logout()" >logout</button>
+
+   
+  <div style="margin-left:100px;float:left;">
+          <table class="table" style="width:400px" align="center" >
+      
+              <thead class="thead-dark">
+                  <tr>
+                      <th scope="col" colspan="5"> Order List</th>
+                      
+                    </tr>
+               
+                <tr>
+                  <th scope="col">OrderId</th>
+                  <th scope="col">Delivery Address</th>
+                  <th scope="col">#</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let order of orders;let i = index ">
+                  <td>{{order.id}}</td>
+                  <td>{{order.deliveryAddress.geolocation}}</td>
+                  <td>
+                    <button class="btn btn-primary" (click)="showOrder(order.id)" >Show Order Details</button>
+                  </td>
+                </tr>
+                </tbody>
+                </table>
+      </div>
+      
+      <div style="margin-left:100px;float:left" >
+
+          <h3> Order#{{orderData.order.id}}</h3>
+          <h5>Delivery Address:{{orderData.order.deliveryAddress.geolocation}}</h5>
+          <h5>Status:&nbsp;<span style="font-weight:bold">{{orderData.order.status}}</span></h5>
+          <table class="table" style="width:400px" align="center" >
+
+              <thead class="thead-dark">
+               
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Image</th>
+                  <th scope="col">Item</th>
+                  <th scope="col">Cost</th>
+                  <th scope="col">Quantity</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let orderitem of orderData.order.items;let i = index ">
+                  <th scope="row">{{i+1}}</th>
+                  <td> <img height="50" src="{{restUrl}}{{orderitem.menuitem.imgUrl}}" /></td>
+                  <td>{{orderitem.menuitem.description}}</td>
+                  <td>{{orderitem.menuitem.cost}}</td>
+                  <td>{{orderitem.quantity}}</td>
+                </tr>
+                </tbody>
+                </table>
+
+          <div  *ngIf="statusStep==1">
+              <button class="btn btn-success" (click)="chnageOrderStatus(orderData.order.id,'ACCEPTED',orderData.taskId)" >Accept</button>
+              <button class="btn btn-danger" (click)="chnageOrderStatus(orderData.order.id,'REJECTED',orderData.taskId)" >Reject</button>
+          </div>
+          <div  *ngIf="statusStep==2">
+              <button class="btn btn-success" (click)="chnageOrderStatus(orderData.order.id,'ORDER_READY',orderData.taskId)" >Order Ready</button>
+              <button class="btn btn-danger" (click)="chnageOrderStatus(orderData.order.id,'ORDER_READY_REJECTED',orderData.taskId)" >Order Ready Reject</button>
+          </div>
+          <div  *ngIf="statusStep==3">
+              <button class="btn btn-success" (click)="chnageOrderStatus(orderData.order.id,'ORDER_IN_DELIVERY',orderData.taskId)" >Order In Delivery</button>
+              <button class="btn btn-danger" (click)="chnageOrderStatus(orderData.order.id,'ORDER_IN_DELIVERY_REJECTED',orderData.taskId)" >Delivery Reject</button>
+          </div>
+          <div  *ngIf="statusStep==4">
+              <button class="btn btn-success" (click)="changeOrderLocation(orderData.order.id,orderData.taskId)" >Change Order Current Location</button>
+              <button class="btn btn-success" (click)="chnageOrderStatus(orderData.order.id,'ORDER_DELIVERED',orderData.taskId)" >Order Delivered</button>
+              <button class="btn btn-danger" (click)="chnageOrderStatus(orderData.order.id,'ORDER_NOT_DELIVERED',orderData.taskId)" >Order Not Delivered</button>
+          </div>
+      <div class="address-div" [hidden]='!showMap' style="clear:both">
+          <div class="form-group">
+           Order Current Location <input placeholder="search for location"
+            autocorrect="off" autocapitalize="off" spellcheck="off" 
+            type="text" [(ngModel)]="geolocation" class="form-control" 
+            #search [formControl]="searchControl">
+          </div>
+          <agm-map [latitude]="latitude" [longitude]="longitude" [scrollwheel]="false" [zoom]="zoom">
+            <agm-marker [latitude]="latitude" [longitude]="longitude"></agm-marker>
+          </agm-map>
+        </div>
+     </div>

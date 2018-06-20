@@ -1,0 +1,11 @@
+.page-container
+{
+    margin:50px 50px 50px 50px;
+    text-align: center;
+}
+.title
+{
+    margin:auto;
+    width:50%;
+    padding:10px 10px 10px 10px;
+}

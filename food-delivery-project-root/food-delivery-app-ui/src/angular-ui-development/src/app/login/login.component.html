@@ -1,0 +1,28 @@
+<div class="login-box">
+    <img src="assets/images/restaurant1.jpg" />
+
+    <h1>{{userType | uppercase}} &nbsp;LOGIN </h1>
+    <div *ngIf="userType=='staff'">
+      <p>If you are Kitchen Staff use userid: admin , password:123</p>
+      <p>If you are Delivery Staff use userid: delivery , password:123</p>
+    </div>
+
+    <div *ngIf="userType=='customer'">
+        <p>Use following userid to login</p>
+        <p>userid: customer , password:123</p>
+        <p>userid: guest , password:123</p>
+
+    </div>
+
+    <form>
+      <div class="form-group">
+        <label for="email">User Id:</label>
+        <input type="text" class="form-control" id="userid" name="userid" [(ngModel)]="userid">
+      </div>
+      <div class="form-group">
+        <label for="pwd">Password:</label>
+        <input type="password" class="form-control" id="passowrd" name="passowrd" [(ngModel)]="password">
+      </div>
+      <button class="btn btn-primary" (click)="login()">Login</button>
+    </form>
+</div>

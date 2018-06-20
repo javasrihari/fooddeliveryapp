@@ -1,0 +1,112 @@
+<div class="page-container">
+    <h2>{{restaurant.name}}</h2>
+    <button class="btn btn-success" (click)="logout()" >logout</button>
+
+    <div class="address-div">
+        <div class="form-group">
+         Delivery Address <input placeholder="search for location" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" [(ngModel)]="geolocation" class="form-control" #search [formControl]="searchControl">
+        </div>
+        <agm-map [latitude]="latitude" [longitude]="longitude" [scrollwheel]="false" [zoom]="zoom">
+          <agm-marker [latitude]="latitude" [longitude]="longitude"></agm-marker>
+        </agm-map>
+      </div>
+
+<div style="float:left">
+    <table class="table" style="width:400px" align="center">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col" colspan="5">Menu</th>
+                
+              </tr>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Image</th>
+            <th scope="col">Item</th>
+            <th scope="col">Cost</th>
+            <th scope="col">&nbsp;</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let menuitem of restaurant.menuitems;let i = index ">
+            <th scope="row">{{i+1}}</th>
+            <td> <img height="50" src="{{restUrl}}{{menuitem.imgUrl}}" /></td>
+            <td>{{menuitem.description}}</td>
+            <td>{{menuitem.cost}}</td>
+            <td><button class="btn btn-primary" (click)="addItem(menuitem)">Add</button></td>
+          </tr>
+          </tbody>
+          </table>
+
+    
+    </div>
+
+    <div style="margin-left:100px;float:left">
+       
+    
+
+    <table class="table" style="width:400px" align="center" >
+
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col" colspan="5">New Order</th>
+                
+              </tr>
+         
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Image</th>
+            <th scope="col">Item</th>
+            <th scope="col">Cost</th>
+            <th scope="col">Quantity</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let orderitem of orderItems;let i = index ">
+            <th scope="row">{{i+1}}</th>
+            <td> <img height="50" src="{{restUrl}}{{orderitem.menuitem.imgUrl}}" /></td>
+            <td>{{orderitem.menuitem.description}}</td>
+            <td>{{orderitem.menuitem.cost}}</td>
+            <td>  <input type="text" class="form-control" id="quantity" name="quantity" [(ngModel)]="orderitem.quantity">
+            </td>
+          </tr>
+          </tbody>
+          </table>
+    <button class="btn btn-primary" (click)="placeOrder()" *ngIf="!orderSuccess">Place Order</button>
+
+    <div *ngIf="orderSuccess">
+        <h4>{{orderSuccessMsg}}</h4>
+        <button class="btn btn-primary" (click)="trackOrder(orderSuccessId)" >Track Order</button>
+
+       </div>
+
+    </div>
+
+    
+  </div>
+  <div style="margin-left:100px;float:left">
+          <table class="table" style="width:400px" align="center" >
+      
+              <thead class="thead-dark">
+                  <tr>
+                      <th scope="col" colspan="5"> Order List</th>
+                      
+                    </tr>
+               
+                <tr>
+                  <th scope="col">OrderId</th>
+                  <th scope="col">Delivery Address</th>
+                  <th scope="col">#</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let order of orders;let i = index ">
+                  <td>{{order.id}}</td>
+                  <td>{{order.deliveryAddress.geolocation}}</td>
+                  <td><button class="btn btn-primary" (click)="trackOrder(order.id)" >Track Order</button>
+                  </td>
+                </tr>
+                </tbody>
+                </table>
+      </div>
+  
+      

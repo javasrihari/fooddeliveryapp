@@ -1,0 +1,24 @@
+<div class="page-container">
+    <h2>{{restaurant.name}}</h2>
+
+    <h3>Your Order#{{orderData.order.id}}</h3>
+    <h5>Delivery Address:{{orderData.order.deliveryAddress.geolocation}}</h5>
+    <h5>Status:{{orderData.order.status}}</h5>
+    <h5>Order Current Location:{{orderData.order.currentAddressLocation.geolocation}}</h5>
+
+    <div class="address-div">
+        <div class="form-group">
+        </div>
+        <agm-map [latitude]="latitude" [longitude]="longitude" [scrollwheel]="false" [zoom]="zoom">
+          <agm-marker [latitude]="latitude" [longitude]="longitude"></agm-marker>
+        </agm-map>
+        <p>&nbsp;</p>
+        <p>      
+          <button class="btn btn-primary" (click)="gotoHome()">Back to Home</button>
+          <button class="btn btn-primary" (click)="trackOrder()">Track Order Again</button>
+          
+        </p>
+
+      </div>
+
+  </div>
